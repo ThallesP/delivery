@@ -1,23 +1,24 @@
 import { Optional } from '@/shared/types/Optional'
 import { Entity } from '@/shared/entities/Entity'
 import { UniqueEntityId } from '@/shared/entities/UniqueEntityId'
-import { Slug } from './value-objects/Slug'
+import { Slug } from './valueObjects/Slug'
 
-export type FoodProps = {
+export type ItemProps = {
   name: string
   slug: Slug
+  restaurantId: UniqueEntityId
   description: string
   price: number
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Food extends Entity<FoodProps> {
+export class Item extends Entity<ItemProps> {
   static create(
-    props: Optional<FoodProps, 'createdAt' | 'slug'>,
+    props: Optional<ItemProps, 'createdAt' | 'slug'>,
     id?: UniqueEntityId,
   ) {
-    return new Food(
+    return new Item(
       {
         ...props,
         slug: props.slug ?? Slug.createFromText(props.name),
@@ -34,6 +35,10 @@ export class Food extends Entity<FoodProps> {
   public set name(name: string) {
     this.props.name = name
     this.touch()
+  }
+
+  public get restaurantId() {
+    return this.props.restaurantId
   }
 
   public get slug() {

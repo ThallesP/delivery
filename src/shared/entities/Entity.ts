@@ -8,4 +8,8 @@ export class Entity<Props> {
     this.props = props
     this._id = id ?? new UniqueEntityId()
   }
+
+  public get id() {
+    return this._id
+  }
 }
